@@ -2,7 +2,7 @@ import styled, {css} from "styled-components/native";
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { RFValue } from "react-native-responsive-fontsize";
-
+import { RectButton } from "react-native-gesture-handler";
 import { TouchableOpacity} from 'react-native';
 
 interface TypeProps{
@@ -13,7 +13,7 @@ interface SelectedProps extends TypeProps {
     isActive: boolean;
 }
 
-export const Container = styled(TouchableOpacity)<SelectedProps>`
+export const Container = styled.View<SelectedProps>`
     margin-top: ${RFValue(16)}px;
     width: 48%;
     
@@ -21,10 +21,8 @@ export const Container = styled(TouchableOpacity)<SelectedProps>`
     border-style: solid;
     border-color: ${(props) => props.theme.colors.text};
     border-radius: 5px;
-    padding: 18px;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+
+
     
 
     ${({isActive, type}) => isActive && type === 'down' && css`
@@ -32,13 +30,20 @@ export const Container = styled(TouchableOpacity)<SelectedProps>`
     `}
 
     ${({isActive, type}) => isActive && type === 'up' && css`
-        background-color: ${(props) => props.theme.colors.sucess_light};
+        background-color: ${(props) => props.theme.colors.success_light};
     `}
 `;
 
 export const Title = styled.Text`
     color: ${(props) => props.theme.colors.text};
     font-size: ${RFValue(14)}px;
+`;
+
+export const Button = styled(RectButton)`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 18px;
 `;
 
 export const Icon = styled(Feather)<TypeProps>`
@@ -48,7 +53,7 @@ export const Icon = styled(Feather)<TypeProps>`
     `}
 
     ${(props) => props.type ==='up' && css`
-    color: ${(props) => props.theme.colors.sucess}
+    color: ${(props) => props.theme.colors.success}
     `}
 
     margin-right: 12px;

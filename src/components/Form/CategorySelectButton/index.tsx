@@ -11,9 +11,9 @@ interface Props{
     onPress: ()=> void;
 }
 
-function CategorySelectButton({ title, ...rest }: Props){
+function CategorySelectButton({ title, onPress }: Props){
     return(
-        <Container {...rest}>
+        <Container onPress={onPress}>
             <Category> {title} </Category>
             <Icon name="chevron-down"/>
         </Container>

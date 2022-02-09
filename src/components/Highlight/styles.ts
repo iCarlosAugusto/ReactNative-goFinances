@@ -34,7 +34,7 @@ export const Icon = styled(Feather) <TypeProps>`
 
 
    ${(props) => props.type === 'up' && css`
-       color: ${( props) => props.theme.colors.sucess}
+       color: ${( props) => props.theme.colors.success}
    `};
 
    ${(props) => props.type === 'down' && css`
