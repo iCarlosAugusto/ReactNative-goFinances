@@ -7,9 +7,9 @@ import { Input } from "../Input";
 import { Container, Error } from "./styles";
 
 interface Props extends TextInputProps {
-  control: Control;
-  name: string;
-  placeholder: string;
+  control: Control,
+  name: string,
+  placeholder: string,
   error: string
 }
 
