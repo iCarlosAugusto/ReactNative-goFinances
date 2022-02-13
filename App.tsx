@@ -8,13 +8,13 @@ import {
   useFonts, 
   Poppins_400Regular,
   Poppins_500Medium,
-  Poppins_700Bold
-  } from '@expo-google-fonts/poppins'
+  Poppins_700Bold,
+} from '@expo-google-fonts/poppins'
 
 import theme from './src/global/styles/theme';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { AppRouter } from './src/routes/app.routes';
+import { AuthProvider } from './src/hooks/auth';
+import { Routes } from './src/routes';
 
 export default function App() {
 
@@ -30,9 +30,9 @@ if(!fontsLoader){
 
   return(
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <AppRouter/>
-      </NavigationContainer>
+        <AuthProvider>
+          <Routes/> 
+        </AuthProvider>
     </ThemeProvider>
   )
 }
