@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -7,6 +7,8 @@ import { useTheme } from 'styled-components';
 
 import { HighlightCard } from '../../components/Highlight/index';
 import { TransactionCard, TransactionCardProps } from '../../components/TransactionCard';
+
+import { useAuth } from '../../hooks/auth';
 
 import {
   Container,
@@ -43,10 +45,13 @@ interface HighlightData {
 
 export function Dashboard(){
   const [isLoading, setIsLoading] = useState(true);
+
   const [transactionsState, setTransactionsState] = useState<DataListProps[]>([]);
   const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
 
   const theme = useTheme();
+
+  const { signOut, user} = useAuth();
 
   function getLastTransactionDate(
     collection: DataListProps[],
@@ -62,7 +67,7 @@ export function Dashboard(){
   }
 
   async function loadTransactions(){
-    const dataKey = '@gofinances:transactions';
+    const dataKey = `@gofinances:transactions&id=${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
 
@@ -138,10 +143,6 @@ export function Dashboard(){
     setIsLoading(false);
   }
 
-  useEffect(() => {
-    loadTransactions();
-  },[]);
-
   useFocusEffect(useCallback(() => {
     loadTransactions();
   },[]));
@@ -162,15 +163,15 @@ export function Dashboard(){
             <UserWrapper>
               <UserInfo>
                 <Photo
-                  source={{ uri: 'https://avatars.githubusercontent.com/u/49030804?v=4'}}
+                  source={{ uri: `${user.photo}`}}
                 />
                 <User>
                   <UserGreeting>Olá,</UserGreeting>
-                  <UserName>Rodrigo</UserName>
+                  <UserName>{user.name}</UserName>
                 </User>
               </UserInfo>
 
-              <LogoutButton onPress={() => {}}>
+              <LogoutButton onPress={() => signOut()}>
                 <Icon name="power"/>
               </LogoutButton>
             </UserWrapper>
@@ -203,7 +204,7 @@ export function Dashboard(){
 
             <TransactionList
               data={transactionsState}
-              keyExtractor={item => item.id}
+              keyExtractor={(item : DataListProps) => item.id}
               renderItem={({ item }) => <TransactionCard data={item} />}
             />
           </Transactions>

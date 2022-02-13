@@ -12,7 +12,7 @@ export function HistoryCard({category, amount, color} : HistoryCardProps) {
   return (
     <Container color={color}>
         <Title>{category}</Title>  
-        <Amount>R$ {amount}</Amount>
+        <Amount>{amount}</Amount>
     </Container>
     );
 }

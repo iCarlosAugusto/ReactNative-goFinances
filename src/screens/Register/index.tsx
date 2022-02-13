@@ -5,8 +5,12 @@ import {
   Keyboard,
   Alert
 } from 'react-native';
+
+import { useAuth } from '../../hooks/auth';
+
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 
@@ -17,7 +21,6 @@ import { InputForm } from '../../components/Form/InputForm';
 import { Button } from '../../components/Form/Button';
 import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
 import  CategorySelectButton  from '../../components/Form/CategorySelectButton';
-
 import  CategorySelect  from '../CategorySelect/index'
 
 import {
@@ -46,6 +49,7 @@ const schema = Yup.object().shape({
 });
 
 export function Register(){
+  const { user } = useAuth();
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   
@@ -95,7 +99,7 @@ export function Register(){
     }
 
     try {
-      const dataKey = '@gofinances:transactions';
+      const dataKey = `@gofinances:transactions&id=${user.id}`;
 
       const data = await AsyncStorage.getItem(dataKey);
       const currentData = data ? JSON.parse(data) : [];
@@ -113,8 +117,6 @@ export function Register(){
         key: 'category',
         name: 'Categoria'
       });
-
-      //navigation.navigate('Listagem');
       
     } catch (error) {
       console.log(error);
