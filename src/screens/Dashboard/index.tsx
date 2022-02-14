@@ -10,6 +10,8 @@ import { TransactionCard, TransactionCardProps } from '../../components/Transact
 
 import { useAuth } from '../../hooks/auth';
 
+import { EmptyList } from '../../components/EmptyList';
+
 import {
   Container,
   Header,
@@ -102,8 +104,7 @@ export function Dashboard(){
         type: item.type,
         category: item.category,
         date,
-      }
-
+      };
     });
 
     setTransactionsState(transactionsFormatted);
@@ -143,9 +144,21 @@ export function Dashboard(){
     setIsLoading(false);
   }
 
+  const handleDeleteTransaction = useCallback(async (id: string) => {
+
+    const dataKey = `@gofinances:transactions&id=${user.id}`;
+    const response = await AsyncStorage.getItem(dataKey);
+    const transactionsFormatted = JSON.parse(response!);
+    const newTransactions : DataListProps[] = transactionsFormatted.filter ((transaction: DataListProps) => {
+      return transaction.id !== id
+    });
+    await AsyncStorage.setItem(dataKey, JSON.stringify(newTransactions));
+    loadTransactions();
+  }, []);
+
   useFocusEffect(useCallback(() => {
     loadTransactions();
-  },[]));
+  }, []));
   
 
   return (
@@ -204,8 +217,10 @@ export function Dashboard(){
 
             <TransactionList
               data={transactionsState}
+             
               keyExtractor={(item : DataListProps) => item.id}
-              renderItem={({ item }) => <TransactionCard data={item} />}
+              renderItem={({ item }) => <TransactionCard data={item} handleDeleteTransaction={handleDeleteTransaction}/>}
+              ListEmptyComponent={EmptyList}
             />
           </Transactions>
         </>

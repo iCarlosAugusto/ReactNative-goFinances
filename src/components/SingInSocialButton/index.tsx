@@ -21,7 +21,7 @@ export function SignInSocialButton({
   return(
     <Button {...rest}>
       <ImageContainer>
-        <Svg />
+        <Svg/>
       </ImageContainer>
 
       <Text>

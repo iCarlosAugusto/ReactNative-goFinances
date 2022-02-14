@@ -1,4 +1,6 @@
 import React from 'react';
+import {Button} from 'react-native';
+import Trash from '../../assets/trash.svg';
 
 import { categories } from '../../utils/categories';
 
@@ -9,11 +11,14 @@ import {
   Footer,
   Category,
   Icon,
+  TrashIcon,
   CategoryName,
   Date,
+  DeleteButton
 } from './styles';
 
 export interface TransactionCardProps {
+  id: string,
   type: 'positive' | 'negative';
   name: string;
   amount: string;
@@ -23,12 +28,17 @@ export interface TransactionCardProps {
 
 interface Props {
   data: TransactionCardProps;
+  handleDeleteTransaction: (id: string) => void
 }
 
-export function TransactionCard({ data } : Props){
+export function TransactionCard({ data, handleDeleteTransaction } : Props){
   const [ category ] = categories.filter(
     item => item.key === data.category
   );
+
+  //const handleDelete = () => {
+  //  exit(data.id);
+  //}
 
   return (
     <Container>
@@ -52,6 +62,12 @@ export function TransactionCard({ data } : Props){
         <Date>
           {data.date}
         </Date>
+
+      <DeleteButton>
+        <TrashIcon name="trash-2" onPress={()=>handleDeleteTransaction(data.id)}/>
+      </DeleteButton>
+     
+   
       </Footer>
     </Container>
   )

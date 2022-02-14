@@ -4,8 +4,6 @@ import { Alert } from 'react-native';
 import AppleSvg from '../../assets/apple.svg';
 import GoogleSvg from '../../assets/google.svg';
 
-import { RFValue } from 'react-native-responsive-fontsize';
-
 import { SignInSocialButton } from '../../components/SingInSocialButton';
 
 import { useAuth } from '../../hooks/auth';
@@ -41,8 +39,6 @@ export function SignIn() {
     <Container>
       <Header>
         <TitleWrapper>
-
-          
           <Title>
             Controle suas {'\n'}
             finanças de forma {'\n'}
