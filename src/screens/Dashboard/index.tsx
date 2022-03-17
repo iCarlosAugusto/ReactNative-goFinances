@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, } from 'react';
 import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -137,7 +137,7 @@ export function Dashboard(){
           style: 'currency',
           currency: 'BRL',
         }),
-        lastTransaction: totalInterval
+        lastTransaction: totalInterval.includes("NaN") ? "Nenhuma transação registrada" : `01 a ${totalInterval}`
       }
     });
     
@@ -220,7 +220,7 @@ export function Dashboard(){
              
               keyExtractor={(item : DataListProps) => item.id}
               renderItem={({ item }) => <TransactionCard data={item} handleDeleteTransaction={handleDeleteTransaction}/>}
-              ListEmptyComponent={EmptyList}
+              ListEmptyComponent={<EmptyList menssage='Nenhuma transação registrada'/>}
             />
           </Transactions>
         </>

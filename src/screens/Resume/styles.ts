@@ -49,3 +49,7 @@ export const LoadContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+export const Text = styled.Text`
+  font-family: ${({theme}) => theme.fonts.medium};
+`

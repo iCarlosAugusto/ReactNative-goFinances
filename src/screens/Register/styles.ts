@@ -36,3 +36,8 @@ export const TransactionsTypes = styled.View`
   margin-top: 8px;
   margin-bottom: 16px;
 `;
+
+export const ErrorMenssage = styled.Text`
+  color: ${({theme}) => theme.colors.attention};
+  font-family: ${({theme}) => theme.fonts.regular};
+`;

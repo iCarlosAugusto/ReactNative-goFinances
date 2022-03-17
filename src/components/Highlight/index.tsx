@@ -32,7 +32,7 @@ export function HighlightCard( { title, amount, lastTransaction, type }:Props ){
             </Header>
 
             <Footer>
-                <Amout type={type}>{ amount }</Amout>
+                <Amout type={type}>{amount}</Amout>
                 <LastTransaction type={type}>
                     {lastTransaction}
                 </LastTransaction>

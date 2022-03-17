@@ -14,8 +14,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 
+import { ModalMenssage } from '../../components/ModalMenssaeg';
+
 import { useForm } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
 
 import { InputForm } from '../../components/Form/InputForm';
 import { Button } from '../../components/Form/Button';
@@ -29,12 +30,19 @@ import {
   Title,
   Form,
   Fields,
-  TransactionsTypes
+  TransactionsTypes,
+  ErrorMenssage
 } from './styles';
 
 interface FormData {
   name: string;
   amount: string;  
+}
+
+interface ModalProps {
+  isActive: boolean,
+  menssageType: "attention" | "success",
+  menssage?: string,
 }
 
 const schema = Yup.object().shape({
@@ -51,14 +59,32 @@ const schema = Yup.object().shape({
 export function Register(){
   const { user } = useAuth();
   const [transactionType, setTransactionType] = useState('');
+  const [IsModalOpen, setIsModalOpen ] = useState({} as ModalProps);
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   
+
+  const handleModal = (menssage: string, menssageType: "attention" | "success") => {
+    console.log("handleModal chamado!");
+    setIsModalOpen({
+      isActive: true,
+      menssageType: menssageType,
+      menssage: menssage
+    });
+    setTimeout(() => {
+      console.log("setTimeOut chamado!");
+      console.log("==================================================================");
+      setIsModalOpen({
+        isActive: false,
+        menssageType: menssageType,
+        menssage: '',
+      });
+    }, 3000);
+  };
+
   const [category, setCategory] = useState({
     key: 'category',
     name: 'Categoria'
   });
-
-  const navigation = useNavigation();
 
   const {
     control,
@@ -68,6 +94,8 @@ export function Register(){
   } = useForm({
     resolver: yupResolver(schema)
   });
+
+
 
   function handleTransactionsTypeSelect(type: 'positive' | 'negative'){
     setTransactionType(type);
@@ -81,13 +109,14 @@ export function Register(){
     setCategoryModalOpen(false);
   }
 
+
+
   async function handleRegister(form: FormData){
     if(!transactionType)
-      return Alert.alert('Selecione o tipo da transação');
+      return handleModal("Selecione o tipo da transação", "attention");
 
     if(category.key === 'category')
-      return Alert.alert('Selecione a categoria');
-
+      return handleModal("Selecione o tipe da categoria", "attention");
 
     const newTransaction = {
       id: String(uuid.v4()),
@@ -117,6 +146,7 @@ export function Register(){
         key: 'category',
         name: 'Categoria'
       });
+      handleModal("Sucesso!", "success");
       
     } catch (error) {
       console.log(error);
@@ -127,10 +157,12 @@ export function Register(){
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container>
+      <ModalMenssage isModalOpen={IsModalOpen.isActive} menssage={IsModalOpen.menssage} menssageType={IsModalOpen.menssageType}/>
 
         <Header>
           <Title>Cadastro</Title>
         </Header>
+
 
         <Form>
           <Fields>
@@ -140,7 +172,7 @@ export function Register(){
               placeholder="Nome"
               autoCapitalize="sentences"
               autoCorrect={false}
-              error={errors.name && errors.name.message}
+              error={errors.name && <ErrorMenssage>{errors.name.message}</ErrorMenssage>}
             />
 
             <InputForm
@@ -148,7 +180,7 @@ export function Register(){
               control={control}
               placeholder="Preço"
               keyboardType="numeric"
-              error={errors.amount && errors.amount.message}
+              error={errors.amount && <ErrorMenssage>{errors.amount.message}</ErrorMenssage>}
             />
 
             <TransactionsTypes>

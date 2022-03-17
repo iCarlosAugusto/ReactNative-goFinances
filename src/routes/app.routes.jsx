@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Dashboard } from "../screens/Dashboard";
 import { Register } from "../screens/Register";
 import { Resume } from "../screens/Resume"; 
+import { Modal } from "../components/ModalMenssaeg";
 import { useTheme } from "styled-components";
 import { Platform } from "react-native";
 
@@ -25,7 +26,7 @@ export function AppRouter() {
       }}
     >
       <Screen
-        name="Listagem"
+        name="Dashboard"
         component={Dashboard}
         options={{
           tabBarIcon: ({ color, size }) => (

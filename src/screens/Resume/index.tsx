@@ -17,12 +17,14 @@ import {
   MonthSelectButton,
   MonthSelectIcon,
   Month,
-  LoadContainer
+  LoadContainer,
+  Text
 } from "./styles";
 
 import { useTheme } from "styled-components";
 
 import { useAuth } from "../../hooks/auth";
+import { EmptyList } from "../../components/EmptyList";
 
 export interface TransactionData {
   type: "positive" | "negative";
@@ -109,7 +111,6 @@ export function Resume() {
     }
   };
 
-
   useFocusEffect(useCallback(() => {
     loadTransactions();
   },[selectedDate]));
@@ -119,6 +120,7 @@ export function Resume() {
       <Header>
         <Title>Resumo por categoria</Title>
       </Header>
+ 
       {isLoading === false ? (
         <Field
           showsVerticalScrollIndicator={false}
@@ -126,6 +128,7 @@ export function Resume() {
             padding: 20,
           }}
         >
+
           <MonthSelect>
             <MonthSelectButton>
               <MonthSelectIcon
@@ -133,7 +136,7 @@ export function Resume() {
                 onPress={() => handleChangeMonth("prev")}
               />
             </MonthSelectButton>
-
+        
             <Month>
               {format(selectedDate, "MMMM, yyyy", {
                 locale: ptBR,
@@ -147,6 +150,7 @@ export function Resume() {
               />
             </MonthSelectButton>
           </MonthSelect>
+          {totalByCategories.length === 0 && <EmptyList menssage={"Nenhuma transação registrada."}/>}
           <VictoryPie
             data={totalByCategories}
             colorScale={totalByCategories.map((item) => item.color)}

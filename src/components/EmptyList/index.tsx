@@ -1,15 +1,21 @@
 import React from 'react'
 import {
     Container,
-    Menssage
+    Menssage,
+    Image
 } from './styles';
 
-export function EmptyList() {
+interface EmptyListProps {
+    menssage: string;
+};
+
+export function EmptyList({menssage}: EmptyListProps) {
     return (
         <Container>
+            <Image/>
            <Menssage>
-                A sua lista de transações atualmente está vazia.
+                {menssage}
             </Menssage> 
         </Container>
     );
-}
+};

@@ -24,21 +24,18 @@ export interface TransactionCardProps {
   amount: string;
   category: string;
   date: string;
-}
+};
 
 interface Props {
   data: TransactionCardProps;
   handleDeleteTransaction: (id: string) => void
-}
+};
 
 export function TransactionCard({ data, handleDeleteTransaction } : Props){
+  
   const [ category ] = categories.filter(
     item => item.key === data.category
   );
-
-  //const handleDelete = () => {
-  //  exit(data.id);
-  //}
 
   return (
     <Container>

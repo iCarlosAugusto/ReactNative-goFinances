@@ -15,7 +15,7 @@ interface User{
     name: string,
     email: string,
     photo?: string
-}
+};
 
 interface AuthContextProps {
   user: User,
@@ -29,7 +29,7 @@ interface AuthorizationResponse {
       access_token: string;
     };
     type: string;
-  }
+};
 
 const AuthContext = createContext({} as AuthContextProps);
 
@@ -40,14 +40,13 @@ function AuthProvider({ children }: AuthProviderProps) {
     const userStorageKey = '@gofinances:user';
 
     useEffect(()=> {
-      async function  loadUserStorageDate(){
+      async function loadUserStorageDate(){
         const userStoraged = await AsyncStorage.getItem('@gofinances:user');
 
         if(userStoraged){
           const userLogged  = JSON.parse(userStoraged) as User;
           setUser(userLogged); 
         }  
-
       }
 
       loadUserStorageDate()
